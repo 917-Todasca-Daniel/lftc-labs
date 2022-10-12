@@ -1,0 +1,25 @@
+# p1err
+# 
+i a
+# eroare: nu se cunoaste ;
+i b;
+# 
+i c
+# eroare: nu e voie cu cifre
+i m10
+
+# 
+in(a)
+# 
+in(b)
+# 
+in(c)
+
+if a>b:
+ m=a
+el:
+ m=b
+if c>m:
+ m=c
+
+out(m)

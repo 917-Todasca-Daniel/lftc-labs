@@ -1,0 +1,25 @@
+# p1
+# int a;
+i a
+# int b;
+i b
+# int c;
+i c
+# int max;
+i m
+
+# std::cin >> a
+in(a)
+# std::cin >> b
+in(b)
+# std::cin >> c
+in(c)
+
+if a>b:
+ m=a
+el:
+ m=b
+if c>m:
+ m=c
+
+out(m)
