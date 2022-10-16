@@ -1,0 +1,21 @@
+a. alphabet
+a. letters from english alphabet
+<letter>::=a|b|...|z|A|B|...|Z
+b. digits
+<nz-digit>::=1|2|...|9
+<digit>::=0|<nz-digit>
+
+b. identifiers
+- sequences of letters only
+<identifier>::=<letter>|<letter><identifier>
+
+c. constants
+1. integer
+<i_constant>::=0|-<i_unsigned>|+<i_unsigned>|<i_unsigned>
+<i_unsigned>::=<nz-digit>|<nz_digit><dig_sequence>
+<dig_sequence>::=<digit>|<digit><dig_sequence>
+
+2. strings
+<s_constant>::=""|"<c_sequence>"
+<c_sequence>::=<char>|<char><c_sequence>
+<char>::=<letter>|<digit>|-
