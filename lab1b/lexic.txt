@@ -1,9 +1,14 @@
 a. alphabet
-a. letters from english alphabet
+- letters from english alphabet
 <letter>::=a|b|...|z|A|B|...|Z
-b. digits
+- digits
 <nz-digit>::=1|2|...|9
 <digit>::=0|<nz-digit>
+- reserved keywords
+i, s, if, el, run, in, out
+- separators, operators
+< = > * # % / + -
+
 
 b. identifiers
 - sequences of letters only
