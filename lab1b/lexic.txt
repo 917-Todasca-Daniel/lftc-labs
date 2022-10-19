@@ -1,26 +1,26 @@
 a. alphabet
 - letters from english alphabet
-<letter>::=a|b|...|z|A|B|...|Z
+<letter> ::= a|b|...|z|A|B|...|Z
 - digits
-<nz-digit>::=1|2|...|9
-<digit>::=0|<nz-digit>
+<nz-digit> ::= 1|2|...|9
+<digit> ::= 0|<nz-digit>
 - reserved keywords
 i, s, if, el, run, in, out
 - separators, operators
-< = > * # % / + -
+< = > * # % / + - _
 
 
 b. identifiers
 - sequences of letters only
-<identifier>::=<letter>|<letter><identifier>
+<identifier> ::= <letter>|<letter><identifier>
 
 c. constants
 1. integer
-<i_constant>::=0|-<i_unsigned>|+<i_unsigned>|<i_unsigned>
-<i_unsigned>::=<nz-digit>|<nz_digit><dig_sequence>
-<dig_sequence>::=<digit>|<digit><dig_sequence>
+<i_constant> ::= 0|-<i_unsigned>|+<i_unsigned>|<i_unsigned>
+<i_unsigned> ::= <nz-digit>|<nz_digit><dig_sequence>
+<dig_sequence> ::= <digit>|<digit><dig_sequence>
 
 2. strings
-<s_constant>::=""|"<c_sequence>"
-<c_sequence>::=<char>|<char><c_sequence>
-<char>::=<letter>|<digit>|-
+<s_constant> ::= ""|"<c_sequence>"
+<c_sequence> ::= <char>|<char><c_sequence>
+<char> ::= <letter>|<digit>|-|_

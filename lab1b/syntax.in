@@ -1,25 +1,25 @@
-<instr>::=<decl>|<logic_instr>|<comm>
-<program>::=<instr>|<instr><new_line><program>
+<instr> ::= <decl>|<logic_instr>|<comm>
+<program> ::= <instr>|<instr><new_line><program>
 
-<comm>::=#<any_sequence>
-<any_sequence>::=<any_character>|<any_character><any_sequence>
-<any_character>::=<letter>|<digit>|<operators>|<separators>
+<comm> ::= #<any_sequence>
+<any_sequence> ::= <any_character>|<any_character><any_sequence>
+<any_character> ::= <letter>|<digit>|<operators>|<separators>
 
-<decl>::=<var_decl>|<arr_decl>
-<var_decl>::=<TYPE><space><identifier>
-<TYPE>::=i|s
-<arr_decl>::=<TYPE><space><identifier>[<i_unsigned>]
+<decl> ::= <var_decl>|<arr_decl>
+<var_decl> ::= <TYPE><space><identifier>
+<TYPE> ::= i|s
+<arr_decl> ::= <TYPE><space><identifier>[<i_unsigned>]
 
-<logic_instr>::=<assign_stmt>|<io_stmt>|<if_stmt>|<while_stmt>
-<assign_stmt>::=<identifier>=<expression>
+<logic_instr> :: =<assign_stmt>|<io_stmt>|<if_stmt>|<while_stmt>
+<assign_stmt> :: =<identifier>=<expression>
 
-<expression>::=<term>|(<expression>)|<expression><math_op><expression>
-<math_op>::=+|-|/|*|**|%
-<term>::=<identifier>|<i_constant>
+<expression> ::= <term>|(<expression>)|<expression><math_op><expression>
+<math_op> ::= +|-|/|*|**|%
+<term> ::= <identifier>|<i_constant>
 
-<io_stmt>::=in(<identifier>)|out(<identiier>)
+<io_stmt> ::= in(<identifier>)|out(<identiier>)
 
-<if_stmt>::=if<condition>:<program>.|if<condition>:<program>.el:<program>.
-<condition>::=<expression><relation><expression>
-<relation>::=<|>|==|!=|>=|<=
-<while_stmt>::=while<condition>:<program>.
+<if_stmt> ::= if<condition>:<program>.|if<condition>:<program>.el:<program>.
+<condition> ::= <expression><relation><expression>
+<relation> ::= <|>|==|!=|>=|<=
+<while_stmt> ::= while<condition>:<program>.
