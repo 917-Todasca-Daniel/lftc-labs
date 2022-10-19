@@ -10,10 +10,12 @@ S=0
 run j<10:
  in(v{j})
  j=j+1
+.
 
 j=0
 run j<10:
  S=S+v{j}
  j=j+1
+.
  
 out(S)

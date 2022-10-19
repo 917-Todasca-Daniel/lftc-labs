@@ -17,9 +17,12 @@ in(c)
 
 if a>b:
  m=a
+.
 el:
  m=b
+.
 if c>m:
  m=c
+.
 
 out(m)
