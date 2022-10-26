@@ -3,10 +3,10 @@ i x
 in(x)
 
 s what
-what="boring-number"
+what="boring_number"
 
 if x<0:
- what="negative-number"
+ what="negative_number"
 .
 el:
  i d
@@ -15,7 +15,7 @@ el:
   d=d+1
  .
  if d**2==x:
-  what="perfect-square"
+  what="perfect_square"
  .
 .
 
