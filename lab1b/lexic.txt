@@ -7,7 +7,7 @@ a. alphabet
 - reserved keywords
 i, s, if, el, run, in, out
 - separators, operators
-< = > * # % / + - _
+< = > * # % / + - _ >= <= != == : . { } ( ) [ ] ** + - 
 
 
 b. identifiers
@@ -23,4 +23,4 @@ c. constants
 2. strings
 <s_constant> ::= ""|"<c_sequence>"
 <c_sequence> ::= <char>|<char><c_sequence>
-<char> ::= <letter>|<digit>|-|_
+<char> ::= <letter>|<digit>|_
