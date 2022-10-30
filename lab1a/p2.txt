@@ -10,7 +10,7 @@ if x<0:
 .
 el:
  i d
- d=1
+ d=+1
  run d*d<x:
   d=d+1
  .

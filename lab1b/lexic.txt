@@ -7,7 +7,7 @@ a. alphabet
 - reserved keywords
 i, s, if, el, run, in, out
 - separators, operators
-< = > * # % / + - _
+< = > * # % / + - _ >= <= != == : . { } ( ) [ ] ** + - 
 
 
 b. identifiers

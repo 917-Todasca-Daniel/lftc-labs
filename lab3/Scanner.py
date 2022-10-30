@@ -22,18 +22,25 @@ class Scanner:
         tokens = re.split(self.__split_regex, content)
         if content[0] == '#':
             return
-        for token in tokens:
+        prev_type = None
+        for token_idx, token in enumerate(tokens):       
             token = token.strip()
+            if token in ["+", "-"] and prev_type not in ["ct", "id"] and token_idx + 1 < len(tokens):
+                tokens[token_idx+1] = token + tokens[token_idx+1]
+                continue
             if len(token) == 0:
                 pass
             elif re.match(self.__reserved_regex, token) != None:
                 self.__pif.add_reserved(token)
+                prev_type = "reserved"
             elif re.match(self.__string_regex, token) or re.match(self.__int_regex, token):
                 pos = self.__cts.add(token)
                 self.__pif.add_constant(token)
+                prev_type = "ct"
             elif re.match(self.__identifier_regex, token):
                 pos = self.__ids.add(token)
                 self.__pif.add_identifier(pos)
+                prev_type = "ct"
             else:
                 print("Error at line " + str(line_idx) + ": " + str(token))
                 input()
