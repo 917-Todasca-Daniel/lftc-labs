@@ -5,6 +5,7 @@ from lab2.SymbolTable import SymbolTable
 from lab3.PIF import PIF
 
 import re
+from pprint import pprint
 
 
 class Scanner:
@@ -21,8 +22,9 @@ class Scanner:
     def __scan_line(self, content, line_idx):
         tokens = re.split(self.__split_regex, content)
         if content[0] == '#':
-            return
+            return False
         prev_type = None
+        has_error = False
         for token_idx, token in enumerate(tokens):       
             token = token.strip()
             if token in ["+", "-"] and prev_type not in ["ct", "id"] and token_idx + 1 < len(tokens):
@@ -42,15 +44,28 @@ class Scanner:
                 self.__pif.add_identifier(pos)
                 prev_type = "ct"
             else:
+                has_error = True
                 print("Error at line " + str(line_idx) + ": " + str(token))
                 input()
+        return has_error
     
     def scan_file(self, path):
         print(path)
+        has_error = False
         with open(path) as file:
             for idx, line in enumerate(file):
-                self.__scan_line(line, idx)
+                has_error |= self.__scan_line(line, idx)
+        if has_error:
+            print("Lexically correct!")
         
+        with open('PIF.out', 'w') as file:
+            pprint(str(self.__pif), stream=file)
+        with open('ST.out', 'w') as file:
+            print("Identifiers:", file=file)
+            pprint(str(self.__ids), stream=file)
+            print("Constants:", file=file)
+            pprint(str(self.__cts), stream=file)
+
         print(self.__ids)
         print(self.__cts)
         print(self.__pif)
