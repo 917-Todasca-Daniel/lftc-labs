@@ -30,5 +30,5 @@ class SymbolTable:
         return value, self.__buckets[value].index(key)
     
     def __str__(self):
-        return str([bucket for bucket in self.__buckets if len(bucket) > 0]) 
+        return str([bucket for bucket in enumerate(self.__buckets) if len(bucket[1]) > 0]) 
         
