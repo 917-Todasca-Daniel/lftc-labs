@@ -5,6 +5,7 @@ from FAFactory import FAFactory
 # FA = FAFactory.read_FA("C:\\Users\\quackdratic\\Desktop\\lftc\\lftc-labs\\lab4\\FA.in")
 # FA = FAFactory.read_FA("C:\\Users\\quackdratic\\Desktop\\lftc\\lftc-labs\\lab4\\largeFA.in")
 FA = FAFactory.read_FA("C:\\Users\\quackdratic\\Desktop\\lftc\\lftc-labs\\lab4\\FA_int.in")
+# FA = FAFactory.read_FA("C:\\Users\\quackdratic\\Desktop\\lftc\\lftc-labs\\lab4\\FA_err.in")
 
 
 can_accept = True

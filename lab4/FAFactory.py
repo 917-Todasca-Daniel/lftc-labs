@@ -10,6 +10,7 @@ class FAFactory:
             alphabet_line = file.readline()
             for char in alphabet_line.split(","):
                 char = char.strip()
+                assert len(char) <= 1
                 FA.add_to_aphabet(char)
 
             state_line = file.readline()
@@ -30,6 +31,7 @@ class FAFactory:
             while transition_line:
                 src, how, where = transition_line.split(",")
                 where = where.strip()
+                assert how in FA.get_alphabet()
                 FA.add_transition(src, where, how)
                 transition_line = file.readline()
 
