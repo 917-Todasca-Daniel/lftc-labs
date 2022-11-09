@@ -3,6 +3,7 @@ sys.path.append('C:/Users/quackdratic/desktop/lftc/lftc-labs')
 
 from lab2.SymbolTable import SymbolTable
 from lab3.PIF import PIF
+from lab4.FAFactory import FAFactory
 
 import re
 from pprint import pprint
@@ -14,10 +15,12 @@ class Scanner:
         self.__cts = SymbolTable()
         self.__pif = PIF()
         self.__split_regex = "(>=|<=|==|!=|\*\*|\*|>|<|%|\\+|-|=| |\(|\)|:|\{|\}|\[|\])"
-        self.__identifier_regex = "^([a-zA-z]+)$"
-        self.__int_regex = "^([+-]?[1-9][0-9]*)|(0)$"
+        # self.__identifier_regex = "^([a-zA-z]+)$"
+        # self.__int_regex = "^([+-]?[1-9][0-9]*)|(0)$"
         self.__string_regex = "^(\"[a-zA-z_-]*\")$"
         self.__reserved_regex = "^(i|s|if|el|run|in|out|\.|:|=|>|\\+|<|>=|<=|==|!=|\*\*|\*|\/|%|\(|\)|\{|\}|\[|\])$"
+        self.__fa = FAFactory.read_FA("C:\\Users\\quackdratic\\Desktop\\lftc\\lftc-labs\\lab4\\FA.in")
+        self.__fa_int = FAFactory.read_FA("C:\\Users\\quackdratic\\Desktop\\lftc\\lftc-labs\\lab4\\FA_int.in")
     
     def __scan_line(self, content, line_idx):
         tokens = re.split(self.__split_regex, content)
@@ -35,11 +38,11 @@ class Scanner:
             elif re.match(self.__reserved_regex, token) != None:
                 self.__pif.add_reserved(token)
                 prev_type = "reserved"
-            elif re.match(self.__string_regex, token) or re.match(self.__int_regex, token):
+            elif re.match(self.__string_regex, token) or self.__fa_int.accept(token):
                 pos = self.__cts.add(token)
                 self.__pif.add_constant(token)
                 prev_type = "ct"
-            elif re.match(self.__identifier_regex, token):
+            elif self.__fa.accept(token):
                 pos = self.__ids.add(token)
                 self.__pif.add_identifier(pos)
                 prev_type = "ct"
