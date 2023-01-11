@@ -1,0 +1,22 @@
+# p2
+i x
+in(x)
+
+s what
+what="boring_number"
+
+if x<0:
+ what="negative_number"
+.
+el:
+ i d
+ d=+1
+ run d*d<x:
+  d=d+1
+ .
+ if d**2==x:
+  what="perfect_square"
+ .
+.
+
+out(what)

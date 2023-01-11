@@ -1,0 +1,162 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int TOKEN = 0;
+int IDENTIFIER = 1;
+int INT = 2;
+int STRING = 3;
+
+int lines = 0;
+char **string_symbol_table;
+char **identifier_symbol_table;
+int *int_symbol_table;
+
+struct Entry {
+    int code;
+    char *token;
+    int position;
+};
+struct Entry* pif;
+
+int len_string      = 1000;
+int len_identifier  = 1000;
+int len_int         = 1000;
+int len_pif         = 1000;
+
+int pointer_string      = 0;
+int pointer_identifier  = 0;
+int pointer_int         = 0;
+int pointer_pif         = 0;
+
+void init_symbol_tables()
+{
+    string_symbol_table = malloc(len_string * sizeof(char*));
+    identifier_symbol_table = malloc(len_identifier * sizeof(char*));
+    int_symbol_table = malloc(len_int * sizeof(int));
+    pif = malloc(len_pif * sizeof(struct Entry));
+}
+
+void add_string (char *string) {
+    string_symbol_table[pointer_string++] = string;
+}
+void add_identifier (char *identifier) {
+    identifier_symbol_table[pointer_identifier++] = identifier;
+}
+void add_int (int number) {
+    int_symbol_table[pointer_int++] = number;
+}
+void add_to_pif(struct Entry entry) {
+    pif[pointer_pif++] = entry;
+}
+
+int get_string_index(char *string) {
+    for (int i = 0; i < pointer_string; ++i)
+        if (strcmp(string, string_symbol_table[i]) == 0)
+            return i;
+    add_string(string);
+    return pointer_string-1;
+}
+int get_identifier_index(char *identifier) {
+    for (int i = 0; i < pointer_identifier; ++i)
+        if (strcmp(identifier, identifier_symbol_table[i]) == 0)
+            return i;
+    add_identifier(identifier);
+    return pointer_identifier-1;
+}
+int get_int_index(char *number) {
+    int x = atoi(number); // NOLINT(cert-err34-c)
+    for (int i = 0; i < pointer_int; ++i)
+        if (x == int_symbol_table[i])
+            return i;
+    add_int(x);
+    return pointer_int-1;
+}
+
+struct Entry get_entry(int opcode, char *token, int pos) {
+    struct Entry entry;
+    entry.code = opcode;
+    entry.position = pos;
+    entry.token = token;
+    return entry;
+};
+
+char* string_copy(char *string) {
+    int size = (int)strlen(string);
+    char* new_string = malloc((size+1) * sizeof (char));
+    strcpy(new_string, string);
+    return new_string;
+}
+%}
+
+%option noyywrap
+%option caseless
+
+DIGIT [0-9]
+NON_ZERO_DIGIT [1-9]
+COMM_LINE [#].*
+INT_CT [+-]?{NON_ZERO_DIGIT}{DIGIT}*|0
+LETTER [a-zA-Z_]
+STRING_CT \"({LETTER}|{DIGIT})*\"
+IDENTIFIER {LETTER}+
+BAD_IDENTIFIER ({LETTER}|{DIGIT})*
+
+%%
+{COMM_LINE}        {printf("skipped line %d\n", lines);}
+
+"i"|"s"|"in"|"out"|"if"|"el"|"run" { char *token = string_copy(yytext); add_to_pif(get_entry(0, token, -1)); printf("{%s} reserved word, line %d\n", yytext, lines);}
+
+{INT_CT}      {char *int_const = string_copy(yytext); add_to_pif(get_entry(2, "int",      get_int_index(int_const)));     printf("{%s} int constant, line %d\n", yytext, lines);}
+
+{STRING_CT}   {char *str_const = string_copy(yytext); add_to_pif(get_entry(3, "string",   get_string_index(str_const)));  printf("{%s} string constant, line %d\n", yytext, lines);}
+
+"+"|"-"|"*"|"/"|"%"|"="|">"|">="|"<"|"<="|"=="|"!="|"**"|"||" { 
+    char *token = string_copy(yytext); add_to_pif(get_entry(0, token, -1)); printf("{%s} operator, line %d\n", yytext, lines);
+}
+
+"("|")"|"{"|"}"|","|"["|"]"|":"|"." { 
+    char *token = string_copy(yytext); add_to_pif(get_entry(0, token, -1)); printf("{%s} separator, line %d\n", yytext, lines);
+}
+
+{IDENTIFIER}        {char *id = string_copy(yytext);        add_to_pif(get_entry(1, "id",       get_identifier_index(id)));     printf("{%s} identifier, line %d\n", yytext, lines);}
+
+{BAD_IDENTIFIER}    {printf("Invalid ID format, token {%s}, line %d\n", yytext, lines); exit(1);}
+
+[ \t]+ {}
+
+[\n]+ {++lines;}
+
+. {printf("Invalid token {%s}, line %d\n", yytext, lines); exit(1);}
+
+%%
+int main(int argc, char **argv ) 
+{ 
+    if (argc > 1) {
+    	yyin = fopen(argv[1], "r");
+    }
+    else {
+    	yyin = stdin;
+    }
+
+   	init_symbol_tables();
+    yylex();
+    
+    printf("INT SYMBOL TABLE\n");
+    for (int i = 0; i < pointer_int; ++i)
+    	printf("%d\n", int_symbol_table[i]);
+    printf("\n");
+    
+    printf("STRING SYMBOL TABLE\n");
+    for (int i = 0; i < pointer_string; ++i)
+    	printf("%s\n", string_symbol_table[i]);
+    printf("\n");
+    
+    printf("IDENTIFIER SYMBOL TABLE\n");
+    for (int i = 0; i < pointer_identifier; ++i)
+    	printf("%s\n", identifier_symbol_table[i]);
+    
+    printf("PIF\n");
+    for (int i = 0; i < pointer_pif; ++i)
+    	printf("%d %s %d\n", pif[i].code, pif[i].token, pif[i].position);
+}
